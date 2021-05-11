@@ -19,7 +19,7 @@ router.get('/', async function (req, api) {
     const res = await page.waitForResponse(response => response.url().includes('.cloud.cdnland.in'));
     const url = await res.url();
     const result = url.substr(0, url.length - 25);
-    api.send(result)
+    api.send({ url: result });
     await browser.close();
 });
 
