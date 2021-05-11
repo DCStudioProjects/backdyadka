@@ -11,14 +11,14 @@ router.get('/', async function (req, api) {
         headless: chromium.headless,
         ignoreHTTPSErrors: true,
     });
-    
+
     const page = await browser.newPage();
     await page.goto(`https://38.svetacdn.in/DtnlpDk36lY6/tv-series/${req.query.id}?season=${req.query.season}&episode=${req.query.episode}`);
     await page.waitForSelector('input');
     await page.mouse.click(400, 300);
     const res = await page.waitForResponse(response => response.url().includes('.cloud.cdnland.in'));
     const url = await res.url();
-    const result = `${url.substr(0, url.length - 25) + req.query.quality}.mp4`;
+    const result = url.substr(0, url.length - 25);
     api.send(result)
     await browser.close();
 });
