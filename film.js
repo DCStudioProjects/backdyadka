@@ -13,7 +13,7 @@ router.get('/', async function (req, api) {
     });
 
     const page = await browser.newPage();
-    await page.goto(`https://38.svetacdn.in/DtnlpDk36lY6/tv-series/${req.query.id}?season=${req.query.season}&episode=${req.query.episode}`);
+    await page.goto(`https://38.svetacdn.in/DtnlpDk36lY6/tv-series/${req.query.id}?season=${req.query.season}&episode=${req.query.episode}&translation_id=${req.query.translation}`);
     await page.waitForSelector('input');
     await page.mouse.click(400, 300);
     const res = await page.waitForResponse(response => response.url().includes('.cloud.cdnland.in'));
