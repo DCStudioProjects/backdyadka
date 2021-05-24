@@ -1,4 +1,3 @@
-//const puppeteer = require('puppeteer');
 const express = require('express');
 const router = express.Router();
 const chromium = require('chrome-aws-lambda');
@@ -13,7 +12,7 @@ router.get('/', async function (req, api) {
     });
 
     const page = await browser.newPage();
-    const pageurl = req.query.type === 'tv-series' ? `https://38.svetacdn.in/DtnlpDk36lY6/tv-series/${req.query.id}?season=${req.query.season}&episode=${req.query.episode}&translation=${req.query.translation}` : `https://38.svetacdn.in/DtnlpDk36lY6/movie/${req.query.id}?translation=${req.query.translation}`;
+    const pageurl = req.query.type === 'tv_series' ? `https://38.svetacdn.in/DtnlpDk36lY6/tv-series/${req.query.id}?season=${req.query.season}&episode=${req.query.episode}&translation=${req.query.translation}` : `https://38.svetacdn.in/DtnlpDk36lY6/movie/${req.query.id}?translation=${req.query.translation}`;
     await page.goto(pageurl);
     await page.waitForSelector('input');
     await page.mouse.click(400, 300);
