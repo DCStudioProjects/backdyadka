@@ -16,9 +16,9 @@ router.get('/', async function (req, api) {
     await page.goto(pageurl);
     await page.waitForSelector('input');
     await page.mouse.click(400, 300);
-    const res = await page.waitForResponse(response => response.url().includes('.cloud.cdnland.in'));
+    const res = await page.waitForResponse(response => response.url().includes('seg-1-v1-a1.ts'));
     const url = await res.url();
-    const result = url.substr(0, url.length - 25);
+    const result = url.substr(0, url.length - 26);
     api.send({ url: result });
     await browser.close();
 });
