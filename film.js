@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const chromium = require('chrome-aws-lambda');
+const puppeteer = require('puppeteer');
 
 router.get('/', async function (req, api) {
     const browser = await chromium.puppeteer.launch({
@@ -19,7 +20,7 @@ router.get('/', async function (req, api) {
     const res = await page.waitForResponse(response => response.url().includes('seg-1-v1-a1.ts'));
     const url = await res.url();
     const result = url.substr(0, url.length - 26);
-    api.send({ url: result, fullurl: url });
+    api.send({ url: result, fullurl: url, player: pageurl });
     await browser.close();
 });
 
