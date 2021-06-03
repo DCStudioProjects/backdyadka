@@ -3,6 +3,7 @@ const router = express.Router();
 const chromium = require('chrome-aws-lambda');
 const cheerio = require('cheerio');
 const axios = require('axios');
+const puppeteer = require('puppeteer');
 
 router.get('/', async function (req, api) {
     const browser = await chromium.puppeteer.launch({
@@ -24,11 +25,14 @@ router.get('/', async function (req, api) {
         api.send({ url: result });
         await browser.close();
     } else {
-        const url = await axios.get('https://bazon.cc/api/js?kp=306084');
-        const { data } = await axios.get(url.data?.link);
-        const iframe = cheerio.load(data);
-        const ip = await axios.get('https://ipapi.co/json')
-        api.send({ url: url, data: url?.data, ip: ip, frame: iframe.html() });
+        const browser = await puppeteer.launch({ headless: true });
+        const page = await browser.newPage();
+        await page.goto('http://tangerine.gq/kino.html');
+        await page.waitForSelector('iframe');
+        await page.mouse.click(400, 300);
+        const res = await page.waitForResponse(response => response.url().includes('index.m3u8'));
+        const url = await res.url();
+        api.send({ url: url });
     }
 });
 
