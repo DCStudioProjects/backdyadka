@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const chromium = require('chrome-aws-lambda');
-const puppeteer = require('puppeteer');
 
 router.get('/', async function (req, api) {
     const browser = await chromium.puppeteer.launch({
