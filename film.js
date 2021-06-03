@@ -27,7 +27,8 @@ router.get('/', async function (req, api) {
         const url = await axios.get('https://bazon.cc/api/js?kp=306084');
         const { data } = await axios.get(url.data?.link);
         const iframe = cheerio.load(data);
-        api.send({ url: url, data: data, frame: iframe.html() });
+        const ip = await axios.get('https://ipapi.co/json')
+        api.send({ url: url, data: url?.data, ip: ip, frame: iframe.html() });
     }
 });
 
