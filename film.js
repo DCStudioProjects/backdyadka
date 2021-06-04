@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const chromium = require('chrome-aws-lambda');
-const cheerio = require('cheerio');
-const axios = require('axios');
-const puppeteer = require('puppeteer');
+//const puppeteer = require('puppeteer');
 
 router.get('/', async function (req, api) {
     const browser = await chromium.puppeteer.launch({
@@ -25,14 +23,14 @@ router.get('/', async function (req, api) {
         api.send({ url: result });
         await browser.close();
     } else {
-        const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
-        await page.goto('http://tangerine.gq/kino.html');
+        await page.goto(`https://bazon.dyadka.gq/?kp=${req.query.kp}&season=${req.query.season}&episode=${req.query.episode}`);
         await page.waitForSelector('iframe');
         await page.mouse.click(400, 300);
         const res = await page.waitForResponse(response => response.url().includes('index.m3u8'));
         const url = await res.url();
         api.send({ url: url });
+        await browser.close();
     }
 });
 
