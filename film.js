@@ -44,7 +44,7 @@ router.get('/', async function (req, api) {
         quality >= 720 && arr.push({ quality: 720, url: url.replace(/480/gi, 720) });
         arr.push({ quality: 480, url: url });
         await browser.close();
-        api.send({ url });
+        api.send({ url: url });
     }
 });
 
