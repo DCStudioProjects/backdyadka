@@ -12,6 +12,7 @@ router.get('/', async function (req, api) {
         headless: chromium.headless,
         ignoreHTTPSErrors: true,
     });
+
     /*const browser = await puppeteer.launch({
         headless: false
     });*/
@@ -33,7 +34,7 @@ router.get('/', async function (req, api) {
         const page = await browser.newPage();
         await page.goto(`https://bazon.dyadka.gq/?kp=${req.query.kp}&season=${req.query.season}&episode=${req.query.episode}`);
         await page.waitForSelector('iframe');
-        await page.mouse.click(600, 200);
+        await page.mouse.click(400, 300);
         const res = await page.waitForResponse(response => response.url().includes('index.m3u8'));
         const url = await res.url();
         const response = await axios.get('https://bazon.cc/api/search?token=2848f79ca09d4bbbf419bcdb464b4d11&kp=1060511');
@@ -44,7 +45,7 @@ router.get('/', async function (req, api) {
         quality >= 720 && arr.push({ quality: 720, url: url.replace(/480/gi, 720) });
         arr.push({ quality: 480, url: url });
         await browser.close();
-        api.send({ url: url });
+        api.send({ urls: arr });
     }
 });
 
