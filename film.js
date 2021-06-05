@@ -7,7 +7,7 @@ const axios = require('axios');
 
 router.get('/', async function (req, api) {
     const browser = await chromium.puppeteer.launch({
-        args: [`--proxy-server=80.249.135.49:8080`],
+        args: chromium.args,
         defaultViewport: chromium.defaultViewport,
         executablePath: await chromium.executablePath,
         headless: chromium.headless,
@@ -33,7 +33,7 @@ router.get('/', async function (req, api) {
 
     if (req.query.source === 'bazon') {
         const page = await browser.newPage();
-        //await page.goto(`https://bazon.dyadka.gq/?kp=${req.query.kp}&season=${req.query.season}&episode=${req.query.episode}`);
+        await page.goto(`https://bazon.dyadka.gq/?kp=${req.query.kp}&season=${req.query.season}&episode=${req.query.episode}`);
         const response = await axios.get('https://api64.ipify.org/?format=json')
         /*await page.content()
         await page.waitForSelector('iframe');
@@ -51,7 +51,7 @@ router.get('/', async function (req, api) {
         quality >= 1080 && arr.push({ quality: 1080, url: url.replace(/480/gi, 1080) });
         quality >= 720 && arr.push({ quality: 720, url: url.replace(/480/gi, 720) });
         arr.push({ quality: 480, url: url });*/
-        api.send({ ip: response.data?.ip, urls: await page.content() });
+        api.send({ url: response.data?.ip, urls: await page.content() });
     }
 });
 
