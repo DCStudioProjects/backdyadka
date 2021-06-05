@@ -36,8 +36,10 @@ router.get('/', async function (req, api) {
             await page.goto(`https://bazon.dyadka.gq/?kp=${req.query.kp}&season=${req.query.season}&episode=${req.query.episode}`);
             await page.waitForSelector('iframe');
             await page.mouse.click(400, 300);
+            await page.setDefaultTimeout(8000);
             const res = await page.waitForResponse(response => response.url().includes('index.m3u8'));
             const url = await res.url();
+            await browser.close();
             const response = await axios.get(`https://bazon.cc/api/search?token=2848f79ca09d4bbbf419bcdb464b4d11&kp=${req.query.kp}`);
             const quality = Number(response.data?.results[0]?.max_qual)
             var arr = [];
@@ -45,10 +47,9 @@ router.get('/', async function (req, api) {
             quality >= 1080 && arr.push({ quality: 1080, url: url.replace(/480/gi, 1080) });
             quality >= 720 && arr.push({ quality: 720, url: url.replace(/480/gi, 720) });
             arr.push({ quality: 480, url: url });
-            await browser.close();
             api.send({ urls: arr });
         } catch (err) {
-            api.send({ err });
+            api.send({ text: 'Произошла ошибка!', error: err });
         }
     }
 });
