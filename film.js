@@ -3,6 +3,7 @@ const router = express.Router();
 const chromium = require('chrome-aws-lambda');
 const axios = require('axios');
 //const puppeteer = require('puppeteer')
+//const cheerio = require('cheerio');
 
 router.get('/', async function (req, api) {
     const browser = await chromium.puppeteer.launch({
@@ -33,7 +34,8 @@ router.get('/', async function (req, api) {
     if (req.query.source === 'bazon') {
         const page = await browser.newPage();
         await page.goto(`https://bazon.dyadka.gq/?kp=${req.query.kp}&season=${req.query.season}&episode=${req.query.episode}`);
-        /*await page.waitForSelector('iframe');
+        /*await page.content()
+        await page.waitForSelector('iframe');
         await page.mouse.click(400, 300);
         await page.setDefaultTimeout(8000);
         const res = await page.waitForResponse(response => response.url().includes('index.m3u8'));
@@ -48,7 +50,7 @@ router.get('/', async function (req, api) {
         quality >= 1080 && arr.push({ quality: 1080, url: url.replace(/480/gi, 1080) });
         quality >= 720 && arr.push({ quality: 720, url: url.replace(/480/gi, 720) });
         arr.push({ quality: 480, url: url });*/
-        api.send({ urls: 'arr' });
+        api.send({ urls: await page.content() });
     }
 });
 
