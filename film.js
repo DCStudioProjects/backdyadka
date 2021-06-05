@@ -33,10 +33,10 @@ router.get('/', async function (req, api) {
     if (req.query.source === 'bazon') {
         const page = await browser.newPage();
         await page.goto(`https://bazon.dyadka.gq/?kp=${req.query.kp}&season=${req.query.season}&episode=${req.query.episode}`);
-        await page.waitForSelector('iframe');
+        /*await page.waitForSelector('iframe');
         await page.mouse.click(400, 300);
         await page.setDefaultTimeout(8000);
-        /*const res = await page.waitForResponse(response => response.url().includes('index.m3u8'));
+        const res = await page.waitForResponse(response => response.url().includes('index.m3u8'));
         const url = await res.url();
         const pages = await browser.pages();
         await Promise.all(pages.map(page => page.close()));
