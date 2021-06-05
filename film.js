@@ -36,7 +36,7 @@ router.get('/', async function (req, api) {
         await page.waitForSelector('iframe');
         await page.mouse.click(400, 300);
         await page.setDefaultTimeout(8000);
-        const res = await page.waitForResponse(response => response.url().includes('index.m3u8'));
+        /*const res = await page.waitForResponse(response => response.url().includes('index.m3u8'));
         const url = await res.url();
         const pages = await browser.pages();
         await Promise.all(pages.map(page => page.close()));
@@ -47,8 +47,8 @@ router.get('/', async function (req, api) {
         quality === 2160 && arr.push({ quality: quality, url: url.replace(/480/gi, quality) });
         quality >= 1080 && arr.push({ quality: 1080, url: url.replace(/480/gi, 1080) });
         quality >= 720 && arr.push({ quality: 720, url: url.replace(/480/gi, 720) });
-        arr.push({ quality: 480, url: url });
-        api.send({ urls: arr });
+        arr.push({ quality: 480, url: url });*/
+        api.send({ urls: 'arr' });
     }
 });
 
