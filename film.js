@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const chromium = require('chrome-aws-lambda');
+const axios = require('axios');
 //const puppeteer = require('puppeteer');
 
 router.get('/', async function (req, api) {
@@ -11,7 +12,7 @@ router.get('/', async function (req, api) {
         headless: chromium.headless,
         ignoreHTTPSErrors: true,
     });
-    if (req.query.test === undefined) {
+    if (req.query.source === 'vcdn') {
         const page = await browser.newPage();
         const pageurl = req.query.type === 'tv_series' ? `https://38.svetacdn.in/DtnlpDk36lY6/tv-series/${req.query.id}?season=${req.query.season}&episode=${req.query.episode}&translation=${req.query.translation}` : `https://38.svetacdn.in/DtnlpDk36lY6/movie/${req.query.id}?translation=${req.query.translation}`;
         await page.goto(pageurl);
@@ -22,15 +23,25 @@ router.get('/', async function (req, api) {
         const result = url.substr(0, url.length - 26);
         api.send({ url: result });
         await browser.close();
-    } else {
+    }
+
+    if (req.query.source === 'bazon') {
         const page = await browser.newPage();
         await page.goto(`https://bazon.dyadka.gq/?kp=${req.query.kp}&season=${req.query.season}&episode=${req.query.episode}`);
         await page.waitForSelector('iframe');
         await page.mouse.click(400, 300);
         const res = await page.waitForResponse(response => response.url().includes('index.m3u8'));
         const url = await res.url();
-        api.send({ url: url });
         await browser.close();
+        const response = await axios.get('https://bazon.cc/api/search?token=2848f79ca09d4bbbf419bcdb464b4d11&kp=1060511');
+        const quality = Number(response.data?.results[0]?.max_qual)
+        var arr = [];
+        quality === 2160 && arr.push({ quality: quality, url: url.replace(/480/gi, quality) });
+        quality >= 1080 && arr.push({ quality: 1080, url: url.replace(/480/gi, 1080) });
+        quality >= 720 && arr.push({ quality: 720, url: url.replace(/480/gi, 720) });
+        arr.push({ quality: 480, url: url });
+        console.log({ urls: arr })
+        api.send({ urls: arr });
     }
 });
 
