@@ -6,19 +6,19 @@ const axios = require('axios');
 //const cheerio = require('cheerio');
 
 router.get('/', async function (req, api) {
-    const browser = await chromium.puppeteer.launch({
-        args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath,
-        headless: chromium.headless,
-        ignoreHTTPSErrors: true,
-    });
 
     /*const browser = await puppeteer.launch({
         headless: false
     });*/
 
     if (req.query.source === 'vcdn') {
+        const browser = await chromium.puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath,
+            headless: chromium.headless,
+            ignoreHTTPSErrors: true,
+        });
         const page = await browser.newPage();
         const pageurl = req.query.type === 'tv_series' ? `https://38.svetacdn.in/DtnlpDk36lY6/tv-series/${req.query.id}?season=${req.query.season}&episode=${req.query.episode}&translation=${req.query.translation}` : `https://38.svetacdn.in/DtnlpDk36lY6/movie/${req.query.id}?translation=${req.query.translation}`;
         await page.goto(pageurl);
@@ -31,27 +31,52 @@ router.get('/', async function (req, api) {
         await browser.close();
     }
 
-    if (req.query.source === 'bazon') {
+    if (req.query.source === 'rezka') {
+        const browser = await chromium.puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath,
+            headless: chromium.headless,
+            ignoreHTTPSErrors: true,
+        });
         const page = await browser.newPage();
-        await page.goto(`https://bazon.dyadka.gq/?kp=${req.query.kp}&season=${req.query.season}&episode=${req.query.episode}`);
-        const response = await axios.get('https://api64.ipify.org/?format=json')
-        /*await page.content()
-        await page.waitForSelector('iframe');
-        await page.mouse.click(400, 300);
-        await page.setDefaultTimeout(8000);
-        const res = await page.waitForResponse(response => response.url().includes('index.m3u8'));
-        const url = await res.url();
-        const pages = await browser.pages();
-        await Promise.all(pages.map(page => page.close()));
-        await browser.close();
-        const response = await axios.get(`https://bazon.cc/api/search?token=2848f79ca09d4bbbf419bcdb464b4d11&kp=${req.query.kp}`);
-        const quality = Number(response.data?.results[0]?.max_qual)
-        var arr = [];
-        quality === 2160 && arr.push({ quality: quality, url: url.replace(/480/gi, quality) });
-        quality >= 1080 && arr.push({ quality: 1080, url: url.replace(/480/gi, 1080) });
-        quality >= 720 && arr.push({ quality: 720, url: url.replace(/480/gi, 720) });
-        arr.push({ quality: 480, url: url });*/
-        api.send({ url: response.data?.ip, urls: await page.content() });
+        if (req.query.translation !== undefined) {
+            await page.evaluateOnNewDocument(
+                token => {
+                    localStorage.clear();
+                    localStorage.setItem('pljsquality', token);
+                }, '1080p');
+            await page.goto(`https://voidboost.net/embed/${req.query.kp}?s=${req.query.season}&e=${req.query.episode}&t=${req.query.translation}&autoplay=1`);
+            const url = await page.waitForResponse(response => response.url().includes('hls:manifest.m3u8'));
+            await page.waitForSelector('#translator-name > option');
+            const result = await page.$$eval('#translator-name > option', el =>
+                el.reduce((pr, x) => {
+                    return pr.concat({ token: x.getAttribute('data-token'), id: Number(x.getAttribute('value')) / 10, name: x.textContent })
+                }, []));
+            const send = { translations: result, url: url?.url() }
+            api.send(send);
+            await browser.close();
+
+        } else {
+            await page.evaluateOnNewDocument(
+                token => {
+                    localStorage.clear();
+                    localStorage.setItem('pljsquality', token);
+                }, '1080p');
+            await page.goto(`https://voidboost.net/embed/${req.query.kp}?s=${req.query.season}&e=${req.query.episode}&autoplay=1`);
+            await page.waitForSelector('#translator-name > option');
+            const url = await page.waitForResponse(response => response.url().includes('hls:manifest.m3u8'));
+            const result = await page.$$eval('#translator-name > option', el =>
+                el.reduce((pr, x) => {
+                    return pr.concat({ token: x.getAttribute('data-token'), id: Number(x.getAttribute('value')) / 10, name: x.textContent })
+                }, []));
+            result.splice(0, 1);
+            const send = { translations: result, url: url?.url() }
+            //result.url = url?.url();
+            console.log(send);
+            api.send(send);
+            await browser.close();
+        }
     }
 });
 
