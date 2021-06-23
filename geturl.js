@@ -65,7 +65,7 @@ router.get('/', async function (req, api) {
             }
         }
         const Urls = async () => {
-            const rezkaapi = await axios.post('https://rezkion.com/ajax/get_cdn_series/?t=1624370189132', querystring.stringify({ 'id': 1154, 'translator_id': 8, 'action': 'get_episodes' }));
+            const rezkaapi = await axios.post('https://rezkion.com/ajax/get_cdn_series/?t=1624370189132', querystring.stringify({ 'id': req.query.id, 'season': req.query.season, 'episode': req.query.episode, 'translator_id': req.query.translation, 'action': 'get_episodes' }));
             const urls = rezkaapi.data.url.split(',').reverse().reduce(
                 (acc, item) => {
                     const [_, quality, url1, url2] = item.match(/\[(.+?)\](.+?) or (.+)/);
