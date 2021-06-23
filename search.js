@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const querystring = require('querystring');
 
 router.get('/', async function (req, api) {
     const search = (await axios.get(`http://103.119.112.27/partner_api/suggests?query=${encodeURIComponent(req.query.q)}`,
