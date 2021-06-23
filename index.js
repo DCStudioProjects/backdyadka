@@ -4,6 +4,7 @@ const port = 5000;
 const film = require('./film');
 const geturl = require('./geturl');
 const search = require('./search');
+const related = require('./related');
 const helmet = require('helmet');
 const cors = require('cors');
 
@@ -18,5 +19,6 @@ app.get('/', (req, res) => {
 app.use('/film', film);
 app.use('/geturl', geturl);
 app.use('/search', search);
+app.use('/related', related);
 
 app.listen(port, () => console.log(`App is listening on port ${port}!`))
