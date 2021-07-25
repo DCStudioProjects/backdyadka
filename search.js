@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 (async () => {
-    const search = (await axios.get(`https://rezkance.com/search/?do=search&subaction=search&q=${encodeURIComponent('теория')}&page=1`,
+    /*const search = (await axios.get(`https://rezkance.com/search/?do=search&subaction=search&q=${encodeURIComponent('теория')}&page=1`,
         {
             headers: {
                 'Cookie': 'PHPSESSID=i9nisa3paglukt9sb66qtrvd15; dle_user_token=8e75b8a65e227e477abd3a31a2d258be'
@@ -25,5 +25,5 @@ const cheerio = require('cheerio');
 
     const result = ids.map((res, key) => (
         { id: ids[key], title: titles[key], poster: images[key] }
-    ))
+    ))*/
 })()
