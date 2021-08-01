@@ -6,7 +6,6 @@ const querystring = require('querystring');
 
 router.get('/', async (req, api) => {
     const Translate = async () => {
-        console.log(req.query.id)
         const rezkatranslate = (await axios.get(`http://f0561301.xsph.ru/?id=${req.query.id}`)).data;
         const selector = cheerio.load(rezkatranslate);
         const translations = selector('.b-translator__item').map((i, x) => (
@@ -15,7 +14,7 @@ router.get('/', async (req, api) => {
 
         if (translations.length === 0) {
             var textNode = selector('body > script').map((i, x) => x.children[0])
-                .filter((i, x) => x && x.data.match(/sof.tv.initCDNSeriesEvents/)).get(0);
+                .filter((i, x) => x && x.data.match(/sof.tv./)).get(0);
             const id = textNode.data.match(/\d+/g)[1];
             console.log({ id: id, name: 'Оригинальный' })
             return [{ id: id, name: 'Оригинальный' }];

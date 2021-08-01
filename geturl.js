@@ -36,7 +36,6 @@ router.get('/', async (req, api) => {
         }
     }
 
-    console.log(await Translate())
     const urls = (await Urls()).url.split(',').reverse().reduce(
         (acc, item) => {
             const [_, quality, url1, url2] = item.match(/\[(.+?)\](.+?) or (.+)/);

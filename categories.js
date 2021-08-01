@@ -4,10 +4,8 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 router.get('/', async (req, api) => {
-    const search = (await axios.get(`http://f0561301.xsph.ru/search.php?q=${encodeURIComponent(req.query.q)}`)).data
-
-    const selector = cheerio.load(search);
-
+    const data = (await axios.get(`http://f0561301.xsph.ru/categories.php?category=${req.query.category}`)).data
+    const selector = cheerio.load(data);
     const titles = selector('.b-content__inline_item-link a').map((i, x) => (
         selector(x).text()
     )).toArray();
@@ -23,10 +21,9 @@ router.get('/', async (req, api) => {
     const result = ids.map((res, key) => (
         { id: ids[key], title: titles[key], poster: images[key] }
     ));
-
-    api.send({ search: result })
-
-}
-);
+    const title = selector('.b-content__htitle h1').text();
+    console.log(title);
+    api.send({ results: result })
+})
 
 module.exports = router;

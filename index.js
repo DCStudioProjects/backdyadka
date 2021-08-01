@@ -4,18 +4,21 @@ const port = 5000;
 const film = require('./film');
 const parsing = require('./parsing');
 const search = require('./search');
+const episodes = require('./episodes');
 const related = require('./related');
 const details = require('./details');
 const token = require('./token');
-const helmet = require('helmet');
+const categories = require('./categories');
 const cors = require('cors');
 
 app.get('/', (req, res) => {
     res.send('Отказано в доступе')
 })
 app.use('/parsing', parsing);
-/*app.use('/search', search);
-app.use('/related', related);
+app.use('/categories', categories);
+app.use('/search', search);
+app.use('/episodes', episodes);
+/*app.use('/related', related);
 app.use('/details', details);
 app.use('/token', token);*/
 
