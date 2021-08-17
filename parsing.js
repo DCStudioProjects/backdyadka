@@ -98,13 +98,12 @@ router.get("/", async (req, api) => {
         return acc;
       }, []);
 
-    res.status(200).json({ urls: urls });
+    api.send({ urls: urls });
   } catch (err) {
-    res.status(200).json({ err: err });
+    api.send({ err: err });
   }
 
   //res.status(200).json({ /*translations: await Translate(),*/ urls: urls });
-  api.send({ urls: urls });
 });
 
 module.exports = router;
