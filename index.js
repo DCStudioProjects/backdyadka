@@ -11,12 +11,7 @@ const token = require("./token");
 const categories = require("./categories");
 const cors = require("cors");
 
-app.use(
-  cors({
-    credentials: true,
-    origin: ["https://new.dyadka.gq", "http://localhost:3000"],
-  })
-);
+app.use(cors());
 app.get("/", (req, res) => {
   res.send("Отказано в доступе");
 });
