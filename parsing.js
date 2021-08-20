@@ -47,7 +47,7 @@ router.get("/", async (req, api) => {
               translator_id: req.query.translation,
               season: req.query.season,
               episode: req.query.episode,
-              action: "get_stream",
+              action: "get_episodes",
             })
           );
           return rezkaapi.data;
@@ -59,7 +59,7 @@ router.get("/", async (req, api) => {
               translator_id: (await Translate()).active.id,
               season: req.query.season,
               episode: req.query.episode,
-              action: "get_stream",
+              action: "get_episodes",
             })
           );
           return rezkaapi.data;
