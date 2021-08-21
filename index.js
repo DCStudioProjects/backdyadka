@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 const film = require("./film");
 const parsing = require("./parsing");
 const search = require("./search");
