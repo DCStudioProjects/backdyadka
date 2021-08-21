@@ -5,7 +5,7 @@ const cheerio = require("cheerio");
 
 router.get("/", async function (req, api) {
   const { data } = await axios.get(
-    `https://rezkance.com/series/comedy/1154-teoriya-bolshogo-vzryva-2007.html`,
+    `https://rezkance.com/series/comedy/${req.query.id}-teoriya-bolshogo-vzryva-2007.html`,
     {
       headers: {
         Accept:
@@ -78,6 +78,7 @@ router.get("/", async function (req, api) {
     title,
     origtitle,
     kp_id,
+    id: req.query.id,
     type: seasons.length ? "series" : "film",
     ratings,
     translations: { list: translations, active: activetrans },
