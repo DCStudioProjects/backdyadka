@@ -71,7 +71,7 @@ router.get("/", async function (req, api) {
     origtitle,
     kp_id,
     id: req.query.id,
-    type: seasons.length ? "series" : "film",
+    serial: seasons.length ? true : false,
     ratings,
     translations: { list: translations, active: activetrans },
     seasons,
