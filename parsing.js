@@ -57,6 +57,7 @@ router.get("/", async (req, api) => {
         return { list: translations, active };
       }
     };
+    console.log(await Translate())
 
     const Urls = async () => {
       if (req.query.season !== undefined && req.query.episode !== undefined) {
@@ -125,7 +126,7 @@ router.get("/", async (req, api) => {
         }
       }
     };
-
+    console.log(await Urls())
     const urls = (await Urls()).url
       .split(",")
       .reverse()
