@@ -76,6 +76,9 @@ router.get("/", async (req, api) => {
               { headers }
             )
           );
+          
+          console.log(rezkaapi)
+
           return rezkaapi.data;
         } else {
           const rezkaapi = await axios.post(
@@ -92,6 +95,9 @@ router.get("/", async (req, api) => {
               { headers }
             )
           );
+          
+          console.log(rezkaapi)
+
           return rezkaapi.data;
         }
       } else {
@@ -108,6 +114,9 @@ router.get("/", async (req, api) => {
               { headers }
             )
           );
+          
+          console.log(rezkaapi)
+
           return rezkaapi.data;
         } else {
           const rezkaapi = await axios.post(
@@ -122,11 +131,14 @@ router.get("/", async (req, api) => {
               { headers }
             )
           );
+
+          console.log(rezkaapi)
+
           return rezkaapi.data;
         }
       }
     };
-    console.log(await Urls())
+
     const urls = (await Urls()).url
       .split(",")
       .reverse()
