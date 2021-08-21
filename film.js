@@ -65,15 +65,7 @@ router.get("/", async function (req, api) {
     id: selector(".b-translator__item.active").attr("data-translator_id"),
     name: selector(".b-translator__item.active").text(),
   };
-  console.log({
-    title,
-    origtitle,
-    kp_id,
-    type: seasons.length ? "series" : "film",
-    ratings,
-    translations: { list: translations, active: activetrans },
-    seasons,
-  });
+
   api.send({
     title,
     origtitle,
