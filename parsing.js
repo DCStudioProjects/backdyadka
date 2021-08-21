@@ -139,8 +139,6 @@ router.get("/", async (req, api) => {
   } catch (err) {
     api.send({ err: err });
   }
-
-  //res.status(200).json({ /*translations: await Translate(),*/ urls: urls });
 });
 
 module.exports = router;
