@@ -19,8 +19,8 @@ app.use("/parsing", parsing);
 app.use("/categories", categories);
 app.use("/search", search);
 app.use("/episodes", episodes);
-/*app.use('/related', related);
-app.use('/details', details);
-app.use('/token', token);*/
+app.use("/film", film);
+app.use("/details", details);
+app.use("/token", token);
 
 app.listen(port, () => console.log(`App is listening on port ${port}!`));
