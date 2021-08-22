@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "NODE_ENV=development serve src",
-        "build": "NODE_ENV=production build src"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js"
     },
     "engines": {
         "node": "14.x"
