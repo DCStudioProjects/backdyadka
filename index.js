@@ -10,7 +10,6 @@ const details = require("./details");
 const token = require("./token");
 const categories = require("./categories");
 const cors = require("cors");
-const serverless = require("serverless-http");
 
 app.use(cors());
 app.get("/", (req, res) => {
@@ -25,6 +24,3 @@ app.use("/details", details);
 app.use("/token", token);
 
 app.listen(port, () => console.log(`App is listening on port ${port}!`));
-
-module.exports = app;
-module.exports.handler = serverless(app);
