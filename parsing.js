@@ -57,13 +57,13 @@ router.get("/", async (req, api) => {
         return { list: translations, active };
       }
     };
-    console.log(await Translate())
+    console.log(await Translate());
 
     const Urls = async () => {
       if (req.query.season !== undefined && req.query.episode !== undefined) {
         if (req.query.translation !== undefined) {
           const rezkaapi = await axios.post(
-            "http://rezkance.com/ajax/get_cdn_series/",
+            `${process.env.REZKA}/ajax/get_cdn_series/`,
             querystring.stringify(
               {
                 id: req.query.id,
@@ -76,13 +76,13 @@ router.get("/", async (req, api) => {
               { headers }
             )
           );
-          
-          console.log(rezkaapi)
+
+          console.log(rezkaapi);
 
           return rezkaapi.data;
         } else {
           const rezkaapi = await axios.post(
-            "http://rezkance.com/ajax/get_cdn_series/",
+            `${process.env.REZKA}/ajax/get_cdn_series/`,
             querystring.stringify(
               {
                 id: req.query.id,
@@ -95,15 +95,15 @@ router.get("/", async (req, api) => {
               { headers }
             )
           );
-          
-          console.log(rezkaapi)
+
+          console.log(rezkaapi);
 
           return rezkaapi.data;
         }
       } else {
         if (req.query.translation !== undefined) {
           const rezkaapi = await axios.post(
-            "http://rezkance.com/ajax/get_cdn_series/",
+            `${process.env.REZKA}/ajax/get_cdn_series/`,
             querystring.stringify(
               {
                 id: req.query.id,
@@ -114,13 +114,13 @@ router.get("/", async (req, api) => {
               { headers }
             )
           );
-          
-          console.log(rezkaapi)
+
+          console.log(rezkaapi);
 
           return rezkaapi.data;
         } else {
           const rezkaapi = await axios.post(
-            "http://rezkance.com/ajax/get_cdn_series/",
+            `${process.env.REZKA}/ajax/get_cdn_series/`,
             querystring.stringify(
               {
                 id: req.query.id,
@@ -132,7 +132,7 @@ router.get("/", async (req, api) => {
             )
           );
 
-          console.log(rezkaapi)
+          console.log(rezkaapi);
 
           return rezkaapi.data;
         }

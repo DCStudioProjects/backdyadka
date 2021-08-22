@@ -5,7 +5,7 @@ const cheerio = require("cheerio");
 
 router.get("/", async function (req, api) {
   const { data } = await axios.get(
-    `https://rezkance.com/series/comedy/${req.query.id}-teoriya-bolshogo-vzryva-2007.html`,
+    `${process.env.REZKA}/series/comedy/${req.query.id}-teoriya-bolshogo-vzryva-2007.html`,
     {
       headers: {
         Accept:
