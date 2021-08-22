@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "NODE_ENV=development / serve src",
-        "build": "NODE_ENV=production / build src"
+        "start": "NODE_ENV=development serve src",
+        "build": "NODE_ENV=production build src"
     },
     "engines": {
         "node": "14.x"
