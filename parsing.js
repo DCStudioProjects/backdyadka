@@ -15,8 +15,8 @@ router.get("/", async (req, api) => {
       "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       Cookie:
         "dle_user_taken=1; dle_user_token=3590c8e8b68818e64a1c54288189afb9; _ym_uid=16230045491042370027; _ym_d=1623004549; _ga=GA1.2.1857658373.1625915394; _gid=GA1.2.1836983075.1629488381; _ym_isad=1; PHPSESSID=ap1c2e8ie42id2hs3d1vtrtf41; _ym_visorc=w",
-      Host: "rezkance.com",
-      Origin: "https://rezkance.com",
+      Host: process.env.HOST,
+      Referer: process.env.REZKA,
       "sec-ch-ua":
         '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
       "sec-ch-ua-mobile": "?0",

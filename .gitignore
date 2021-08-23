@@ -4,11 +4,10 @@
 /node_modules
 /.pnp
 .pnp.js
-.vercel
-functions
 
 # testing
 /coverage
+test.js
 
 # production
 /build
