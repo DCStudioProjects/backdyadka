@@ -21,31 +21,33 @@ router.get("/", async (req, api) => {
         .substr(6);
       const buffer = Buffer.from(base64, "base64");
       const str = buffer.toString("utf-8");
-      const kp_id = str.slice(40, -3);
+      const kp_id = Number(str.slice(40, -3));
       const ratings = {
-        kinopoisk: selector(".b-post__info_rates.kp span.bold").text(),
-        imdb: selector(".b-post__info_rates.imdb span.bold").text(),
+        kinopoisk: Number(selector(".b-post__info_rates.kp span.bold").text()),
+        imdb: Number(selector(".b-post__info_rates.imdb span.bold").text()),
       };
       const translations = selector(".b-translator__item")
         .map((i, x) => ({
-          id: selector(x).attr("data-translator_id"),
+          id: Number(selector(x).attr("data-translator_id")),
           name: selector(x).attr("title"),
         }))
         .toArray();
       const seasons = selector(".b-simple_season__item")
         .map((i, x) => ({
-          season: selector(x).attr("data-tab_id"),
+          season: Number(selector(x).attr("data-tab_id")),
           episodes: selector(
             `#simple-episodes-list-${selector(x).attr(
               "data-tab_id"
             )} .b-simple_episode__item`
           )
-            .map((i, el) => selector(el).attr("data-episode_id"))
+            .map((i, el) => Number(selector(el).attr("data-episode_id")))
             .toArray(),
         }))
         .toArray();
       const activetrans = {
-        id: selector(".b-translator__item.active").attr("data-translator_id"),
+        id: Number(
+          selector(".b-translator__item.active").attr("data-translator_id")
+        ),
         name: selector(".b-translator__item.active").text(),
       };
 
@@ -53,7 +55,7 @@ router.get("/", async (req, api) => {
         title,
         origtitle,
         kp_id,
-        id: req.query.id,
+        id: Number(req.query.id),
         serial: seasons.length ? true : false,
         ratings,
         translations: { list: translations, active: activetrans },
