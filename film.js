@@ -12,7 +12,7 @@ router.get("/", async (req, api) => {
         `${domain}/series/comedy/${req.query.id}-teoriya-bolshogo-vzryva-2007.html`,
         headers
       );
-      console.log(!req.query.id);
+
       const selector = cheerio.load(data);
       const title = selector("h1").text();
       const origtitle = selector(".b-post__origtitle").text();
