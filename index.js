@@ -5,7 +5,7 @@ const categories = require("./categories");
 //const details = require("./details"); NEEDS WORK!
 const film = require("./film");
 const hash = require("./hash");
-const parsing = require("./parsing");
+const geturl = require("./geturl");
 const related = require("./related");
 const search = require("./search");
 const cors = require("cors");
@@ -17,7 +17,7 @@ app.use("/categories", categories);
 //app.use("/details", details);
 app.use("/film", film);
 app.use("/hash", hash);
-app.use("/parsing", parsing);
+app.use("/geturl", geturl);
 app.use("/search", search);
 app.get("*", (req, res) => {
   res.status(404).send("Такого эндпоинта не существует");
