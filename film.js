@@ -9,9 +9,8 @@ router.get("/", async (req, api) => {
   try {
     const { data } = await axios.get(
       `${domain}/series/comedy/${req.query.id}-teoriya-bolshogo-vzryva-2007.html`,
-      { headers }
+      headers
     );
-
     const selector = cheerio.load(data);
     const title = selector("h1").text();
     const origtitle = selector(".b-post__origtitle").text();

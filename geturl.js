@@ -53,7 +53,7 @@ router.get("/", async (req, api) => {
             }),
             { headers }
           );
-
+            console.log(rezkaapi)
           return rezkaapi.data;
         } else {
           const rezkaapi = await axios.post(
