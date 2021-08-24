@@ -4,7 +4,6 @@ exports.errorHandler = (error, api) => {
       comment: "Request made and server responded",
       message: error.response.data,
       status: error.response.status,
-      headers: error.response.headers,
     });
   } else if (error.request) {
     api.status(500).send({
