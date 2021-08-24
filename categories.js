@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const cheerio = require("cheerio");
+const { errorHandler } = require("./errorHandler");
 
 router.get("/", async (req, api) => {
   try {

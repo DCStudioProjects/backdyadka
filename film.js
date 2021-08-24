@@ -3,6 +3,7 @@ const router = express.Router();
 const axios = require("axios");
 const cheerio = require("cheerio");
 const { domain, headers } = require("./globalStorage");
+const { errorHandler } = require("./errorHandler");
 
 router.get("/", async (req, api) => {
   try {
