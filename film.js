@@ -23,8 +23,10 @@ router.get("/", async (req, api) => {
       const str = buffer.toString("utf-8");
       const kp_id = Number(str.slice(40, -3));
       const ratings = {
-        kinopoisk: Number(selector(".b-post__info_rates.kp span.bold").text()),
-        imdb: Number(selector(".b-post__info_rates.imdb span.bold").text()),
+        kinopoisk: Number(
+          selector(".b-post__info_rates.kp span.bold").text()
+        ).toFixed(1),
+        imdb: selector(".b-post__info_rates.imdb span.bold").text(),
       };
       const translations = selector(".b-translator__item")
         .map((i, x) => ({
