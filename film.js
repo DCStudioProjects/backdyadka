@@ -20,20 +20,25 @@ router.get("/", async (req, api) => {
         .attr("href")
         .substr(6);
       const buffer = Buffer.from(base64, "base64");
+
       const str = buffer.toString("utf-8");
+
       const kp_id = Number(str.slice(40, -3));
+
       const ratings = {
         kinopoisk: Number(
           selector(".b-post__info_rates.kp span.bold").text()
         ).toFixed(1),
         imdb: selector(".b-post__info_rates.imdb span.bold").text(),
       };
+
       const translations = selector(".b-translator__item")
         .map((i, x) => ({
           id: Number(selector(x).attr("data-translator_id")),
           name: selector(x).attr("title"),
         }))
         .toArray();
+
       const seasons = selector(".b-simple_season__item")
         .map((i, x) => ({
           season: Number(selector(x).attr("data-tab_id")),
@@ -46,6 +51,7 @@ router.get("/", async (req, api) => {
             .toArray(),
         }))
         .toArray();
+
       const activetrans = {
         id: Number(
           selector(".b-translator__item.active").attr("data-translator_id")
@@ -53,15 +59,31 @@ router.get("/", async (req, api) => {
         name: selector(".b-translator__item.active").text(),
       };
 
+      const year = selector(".b-post__info tr:nth-child(4) a")
+        .text()
+        .substring(0, 4);
+
+      const age = selector(".b-post__info tr:nth-child(9) .bold").text();
+      console.log({ age });
+
+      const country = selector(".b-post__info tr:nth-child(5) a").text();
+      const genres = selector(
+        ".b-post__info tr:nth-child(7) td:nth-child(2)"
+      ).text();
+
       api.send({
-        title,
-        origtitle,
-        kp_id,
+        age,
+        country,
+        genres,
         id: Number(req.query.id),
-        serial: seasons.length ? true : false,
+        kp_id,
+        origtitle,
         ratings,
-        translations: { list: translations, active: activetrans },
+        serial: seasons.length ? true : false,
+        title,
+        translations: { list: translations, default: activetrans },
         seasons,
+        year,
       });
     } catch (e) {
       errorHandler(e, api);

@@ -14,6 +14,7 @@ exports.errorHandler = (error, api) => {
     api.status(500).send({
       comment:
         "Something happened in setting up the request that triggered an Error",
+      message: error,
     });
   }
 };
