@@ -64,12 +64,12 @@ router.get("/", async (req, api) => {
         .substring(0, 4);
 
       const age = selector(".b-post__info tr:nth-child(9) .bold").text();
-      console.log({ age });
 
       const country = selector(".b-post__info tr:nth-child(5) a").text();
-      const genres = selector(
-        ".b-post__info tr:nth-child(7) td:nth-child(2)"
-      ).text();
+
+      const genres = selector(".b-post__info tr:nth-child(7) td:nth-child(2)")
+        .text()
+        .toLowerCase();
 
       api.send({
         age,
