@@ -3,18 +3,26 @@ const router = express.Router();
 const axios = require("axios");
 const cheerio = require("cheerio");
 const { errorHandler } = require("./errorHandler");
+const { domain, headers } = require("./globalStorage");
 
 router.get("/", async (req, api) => {
   try {
-    const search = (
-      await axios.get(
-        `http://f0561301.xsph.ru/search.php?q=${encodeURIComponent(
-          req.query.q
-        )}`
-      )
-    ).data;
-
-    const selector = cheerio.load(search);
+    await axios.get(
+      `${domain}/search/?do=search&suFbaction=search&q=${encodeURIComponent(
+        req.query.q
+      )}&page=1`,
+      { withCredentials: true },
+      headers.search
+    );
+    const { data } = await axios.get(
+      `${domain}/search/?do=search&suFbaction=search&q=${encodeURIComponent(
+        req.query.q
+      )}&page=1`,
+      { withCredentials: true },
+      headers.search
+    );
+    console.log(data);
+    const selector = cheerio.load(data);
 
     const titles = selector(".b-content__inline_item-link a")
       .map((i, x) => selector(x).text())
@@ -35,7 +43,7 @@ router.get("/", async (req, api) => {
     }));
 
     api.send({ search: result });
-  } catch (e) {
+  } catch (err) {
     errorHandler(e, api);
   }
 });

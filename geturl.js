@@ -51,9 +51,9 @@ router.get("/", async (req, api) => {
               favs: "7e428a91-9487-4404-b977-ac22b15c4e2f",
               action: "get_stream",
             }),
-            { headers }
+            headers.api
           );
-            console.log(rezkaapi)
+
           return rezkaapi.data;
         } else {
           const rezkaapi = await axios.post(
@@ -66,7 +66,7 @@ router.get("/", async (req, api) => {
               favs: "7e428a91-9487-4404-b977-ac22b15c4e2f",
               action: "get_stream",
             }),
-            { headers }
+            headers.api
           );
 
           return rezkaapi.data;
@@ -81,7 +81,7 @@ router.get("/", async (req, api) => {
               favs: "7e428a91-9487-4404-b977-ac22b15c4e2f",
               action: "get_movie",
             }),
-            { headers }
+            headers.api
           );
 
           return rezkaapi.data;
@@ -94,7 +94,7 @@ router.get("/", async (req, api) => {
               favs: "7e428a91-9487-4404-b977-ac22b15c4e2f",
               action: "get_movie",
             }),
-            { headers }
+            headers.api
           );
 
           return rezkaapi.data;
