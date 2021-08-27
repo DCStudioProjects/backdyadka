@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 1000;
+const port = process.env.PORT || 5000;
 const categories = require("./categories");
 //const details = require("./details"); NEEDS WORK!
 const film = require("./film");
