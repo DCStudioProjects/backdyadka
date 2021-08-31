@@ -1,14 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
+const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const { errorHandler } = require("./errorHandler");
+const { domain, headers } = require("./globalStorage");
 
 router.get("/", async (req, api) => {
   try {
-    const { data } = await axios.get(
-      `http://f0561301.xsph.ru/categories.php?category=${req.query.category}`
+    const response = await fetch(
+      `${domain}/films/page/1/?filter=${req.query.category}`,
+      {
+        method: "get",
+        headers: headers.page,
+      }
     );
+    const data = await response.text();
     const selector = cheerio.load(data);
     const titles = selector(".b-content__inline_item-link a")
       .map((i, x) => selector(x).text())

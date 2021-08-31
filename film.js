@@ -1,18 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
+const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const { domain, headers } = require("./globalStorage");
 const { errorHandler } = require("./errorHandler");
 
-router.get("/", async (req, api) => {
-  if (req.query.id) {
-    try {
-      const { data } = await axios.get(
-        `${domain}/series/comedy/${req.query.id}-teoriya-bolshogo-vzryva-2007.html`,
-        headers.page
-      );
+router.post("/", async (req, api) => {
+  const { id, slug } = req.body;
 
+  if (id && slug) {
+    try {
+      const response = await fetch(
+        `${domain}/series/comedy/${id}-${slug}.html`,
+        {
+          method: "get",
+          headers: headers.page,
+        }
+      );
+      const data = await response.text();
       const selector = cheerio.load(data);
       const title = selector("h1").text();
       const origtitle = selector(".b-post__origtitle").text();
@@ -75,7 +80,7 @@ router.get("/", async (req, api) => {
         age,
         country,
         genres,
-        id: Number(req.query.id),
+        id: Number(id),
         kp_id,
         origtitle,
         ratings,

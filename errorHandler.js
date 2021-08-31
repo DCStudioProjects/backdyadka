@@ -1,4 +1,5 @@
 exports.errorHandler = (error, api) => {
+  console.log(error);
   if (error.response) {
     api.status(500).send({
       comment: "Request made and server responded",
