@@ -7,12 +7,10 @@ const { domain, headers } = require("./globalStorage");
 const fetch = require("node-fetch");
 
 router.post("/", async (req, api) => {
-  const { query } = req.body;
+  const { q } = req.body;
   try {
     const response = await fetch(
-      `${domain}/search?do=search&subaction=search&q=${encodeURIComponent(
-        query
-      )}`,
+      `${domain}/search?do=search&subaction=search&q=${encodeURIComponent(q)}`,
       {
         method: "get",
         headers: headers.page,
@@ -33,10 +31,15 @@ router.post("/", async (req, api) => {
       .map((i, x) => selector(x).attr("src"))
       .toArray();
 
+    const slugs = selector(".b-content__inline_item-cover a")
+      .map((i, x) => selector(x).attr("href"))
+      .toArray();
+    console.log(slugs);
     const result = ids.map((res, key) => ({
       id: ids[key],
       title: titles[key],
       poster: images[key],
+      slug: slugs[key].slice(slugs[key].indexOf("-") + 1, -5),
     }));
 
     api.send({ search: result });
