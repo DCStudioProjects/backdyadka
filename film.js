@@ -85,6 +85,7 @@ router.post("/", async (req, api) => {
         origtitle,
         ratings,
         serial: seasons.length ? true : false,
+        slug,
         title,
         translations: { list: translations, default: activetrans },
         seasons,
