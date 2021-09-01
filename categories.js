@@ -28,13 +28,16 @@ router.get("/", async (req, api) => {
       .map((i, x) => selector(x).attr("src"))
       .toArray();
 
+    const slugs = selector(".b-content__inline_item-cover a")
+      .map((i, x) => selector(x).attr("href"))
+      .toArray();
+
     const result = ids.map((res, key) => ({
       id: ids[key],
       title: titles[key],
       poster: images[key],
+      slug: slugs[key].slice(slugs[key].indexOf("-") + 1, -5),
     }));
-    /*const title = selector(".b-content__htitle h1").text();
-  console.log(title);*/
 
     api.send({ results: result });
   } catch (e) {

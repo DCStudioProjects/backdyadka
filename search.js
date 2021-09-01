@@ -34,7 +34,7 @@ router.post("/", async (req, api) => {
     const slugs = selector(".b-content__inline_item-cover a")
       .map((i, x) => selector(x).attr("href"))
       .toArray();
-    console.log(slugs);
+
     const result = ids.map((res, key) => ({
       id: ids[key],
       title: titles[key],

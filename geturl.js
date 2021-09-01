@@ -116,7 +116,7 @@ router.post("/", async (req, api) => {
       }
     };
 
-    const urls = (await Urls()).url
+    const media = (await Urls()).url
       .split(",")
       .reverse()
       .reduce((acc, item) => {
@@ -125,7 +125,7 @@ router.post("/", async (req, api) => {
         return acc;
       }, []);
 
-    api.send({ urls });
+    api.send({ media });
   } catch (e) {
     errorHandler(e, api);
   }
