@@ -18,7 +18,7 @@ router.post("/", async (req, api) => {
     );
     const data = await response.text();
     const selector = cheerio.load(data);
-
+    console.log(data);
     const titles = selector(".b-content__inline_item-link a")
       .map((i, x) => selector(x).text())
       .toArray();
