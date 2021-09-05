@@ -10,7 +10,7 @@ router.post("/", async (req, api) => {
   const { q } = req.body;
   try {
     const response = await fetch(
-      `${domain}/search?do=search&subaction=search&q=${encodeURIComponent(q)}`,
+      `${domain}/search/?do=search&subaction=search&q=${encodeURIComponent(q)}`,
       {
         method: "get",
         headers: headers.page,
@@ -35,13 +35,16 @@ router.post("/", async (req, api) => {
       .map((i, x) => selector(x).attr("href"))
       .toArray();
 
-    const result = ids.map((res, key) => ({
-      id: ids[key],
-      title: titles[key],
-      poster: images[key],
-      slug: slugs[key].slice(slugs[key].indexOf("-") + 1, -5),
-    }));
-
+    const result = ids.map((res, key) => {
+      const slugreg = /\.\w{2,3}\/(.+?).html/g;
+      return {
+        id: ids[key],
+        title: titles[key],
+        poster: images[key],
+        slug: slugreg.exec(slugs[key])[1],
+      };
+    });
+    console.log(result);
     api.send({ search: result });
   } catch (e) {
     errorHandler(e, api);

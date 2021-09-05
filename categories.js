@@ -32,12 +32,15 @@ router.get("/", async (req, api) => {
       .map((i, x) => selector(x).attr("href"))
       .toArray();
 
-    const result = ids.map((res, key) => ({
-      id: ids[key],
-      title: titles[key],
-      poster: images[key],
-      slug: slugs[key].slice(slugs[key].indexOf("-") + 1, -5),
-    }));
+    const result = ids.map((res, key) => {
+      const slugreg = /\.\w{2,3}\/(.+?).html/g;
+      return {
+        id: ids[key],
+        title: titles[key],
+        poster: images[key],
+        slug: slugreg.exec(slugs[key])[1],
+      };
+    });
 
     api.send({ results: result });
   } catch (e) {

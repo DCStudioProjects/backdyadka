@@ -9,6 +9,18 @@ const geturl = require("./geturl");
 const search = require("./search");
 const cors = require("cors");
 require("dotenv").config();
+const fetch = require("node-fetch");
+const { domain, headers } = require("./globalStorage");
+
+fetch(domain, {
+  method: "GET",
+  headers: headers.index,
+});
+
+fetch(`${domain}/page/2/`, {
+  method: "GET",
+  headers: headers.prefetch,
+});
 
 app.use(express.json());
 app.use(cors());
