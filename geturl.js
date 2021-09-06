@@ -81,7 +81,7 @@ router.post("/", async (req, api) => {
         });
       });
 
-      api.send({ media });
+      api.send({ media: media.reverse() });
     } catch (e) {
       errorHandler(e, api);
     }
