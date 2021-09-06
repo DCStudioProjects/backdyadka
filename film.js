@@ -147,7 +147,7 @@ router.post("/", async (req, api) => {
         genres,
         id: Number(id),
         kp_id,
-        media: media.length > 0 ? media : null,
+        media: media.length > 0 ? media.reverse() : null,
         origtitle,
         ratings,
         series,
