@@ -66,14 +66,20 @@ router.post("/", async (req, api) => {
         }
       };
 
-      const media = (await Urls()).url
-        .split(",")
-        .reverse()
-        .reduce((acc, item) => {
-          const [_, quality, url1, url2] = item.match(/\[(.+?)\](.+?) or (.+)/);
-          acc.push({ quality: quality, urls: [url1, url2] });
-          return acc;
-        }, []);
+      const sources = (await Urls()).url;
+
+      const media = [];
+      const qualities = ["240p", "360p", "480p", "720p", "1080p"];
+      const urls = sources.split(",");
+      urls.map((item, key) => {
+        const urlreg = /\[.+?](.+?) or (.+?mp4)/g;
+        const found = urlreg.exec(item);
+        console.log(found);
+        media.push({
+          quality: qualities[key],
+          urls: [found[1], found[2]],
+        });
+      });
 
       api.send({ media });
     } catch (e) {
