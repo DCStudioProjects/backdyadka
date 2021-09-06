@@ -6,13 +6,16 @@ const { errorHandler } = require("./errorHandler");
 const { apiHeader } = require("./dynamicParams.js");
 
 router.post("/", async (req, api) => {
-  const { id, translation, hash, season, episode, data, token } = req.body;
-  if (id && translation && data && token) {
-    const buffer = Buffer.from(data, "base64");
+  const { source, translation, season, episode, hash, token } = req.body;
+  if (source && translation && token) {
+    const buffer = Buffer.from(source, "base64");
     const slug = buffer.toString();
+    const urlreg = /(\d*?)\-/g;
+    const id = urlreg.exec(slug)[1];
+
     try {
       const Urls = async () => {
-        if (season !== undefined && episode !== undefined) {
+        if (season && episode) {
           const body = new URLSearchParams({
             id,
             translator_id: translation,
@@ -37,6 +40,7 @@ router.post("/", async (req, api) => {
           const { is_camrip, is_ads, is_director } = JSON.parse(
             buffer.toString()
           );
+
           const body = new URLSearchParams({
             id,
             translator_id: translation,
