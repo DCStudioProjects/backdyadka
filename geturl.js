@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const fetch = require("node-fetch");
-const cheerio = require("cheerio");
-const { domain, headers } = require("./globalStorage");
+const { domain } = require("./globalStorage");
 const { errorHandler } = require("./errorHandler");
 const { apiHeader } = require("./dynamicParams.js");
 
 router.post("/", async (req, api) => {
-  const { id, translation, hash, season, episode, slug, token } = req.body;
-  if (id && translation && slug && token) {
+  const { id, translation, hash, season, episode, data, token } = req.body;
+  if (id && translation && data && token) {
+    const buffer = Buffer.from(data, "base64");
+    const slug = buffer.toString();
     try {
       const Urls = async () => {
         if (season !== undefined && episode !== undefined) {

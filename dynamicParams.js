@@ -11,7 +11,7 @@ exports.tileHeader = (slug) => {
       "PHPSESSID=2cke9m2g80rb24mjeb4ik714c6; dle_user_taken=1; dle_user_token=3b9ed4236fb8d1346f785490136847bc; rzk_theme=day",
     Host: host,
     Pragma: "no-cache",
-    Referer: `${domain}/${slug}.html`,
+    Referer: `${domain}${slug}.html`,
     "User-Agent":
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
   };
@@ -31,20 +31,9 @@ exports.apiHeader = (length, slug) => {
     Host: host,
     Origin: domain,
     Pragma: "no-cache",
-    Referer: `${domain}/${slug}.html`,
+    Referer: `${domain}${slug}.html`,
     "User-Agent":
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0",
     "X-Requested-With": "XMLHttpRequest",
   };
-};
-
-exports.apiBody = (id, translation, season, episode, token, action) => {
-  return new URLSearchParams({
-    id,
-    translator_id: translation,
-    season,
-    episode,
-    favs: token,
-    action,
-  });
 };

@@ -7,11 +7,13 @@ const { errorHandler } = require("./errorHandler");
 const { tileHeader } = require("./dynamicParams.js");
 
 router.post("/", async (req, api) => {
-  const { id, slug } = req.body;
+  const { id, data } = req.body;
 
-  if (id && slug) {
+  if (id && data) {
+    const buffer = Buffer.from(data, "base64");
+    const slug = buffer.toString();
     try {
-      const response = await fetch(`${domain}/${slug}.html`, {
+      const response = await fetch(`${domain}${slug}.html`, {
         method: "get",
         headers: headers.page,
       });

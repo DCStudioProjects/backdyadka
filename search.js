@@ -36,7 +36,7 @@ router.post("/", async (req, api) => {
       .toArray();
 
     const result = ids.map((res, key) => {
-      const slugreg = /\.\w{2,3}\/(.+?).html/g;
+      const slugreg = /\.\w{2,3}(\/.+?).html/g;
       return {
         id: ids[key],
         title: titles[key],
