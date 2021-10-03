@@ -1,14 +1,15 @@
-const express = require("express");
-const router = express.Router();
-const fetch = require("node-fetch");
+const router = require("express").Router();
+const axios = require("axios");
 const cheerio = require("cheerio");
-const { errorHandler } = require("./errorHandler");
-const { domain, headers } = require("./globalStorage");
+const { errorHandler } = require("../errorHandler");
+const { domain, headers } = require("../config/globalStorage");
+const fetch = require("node-fetch");
 
-router.get("/", async (req, api) => {
+router.post("/search", async (req, api) => {
+  const { q } = req.body;
   try {
     const response = await fetch(
-      `${domain}/films/page/1/?filter=${req.query.category}`,
+      `${domain}/search/?do=search&subaction=search&q=${encodeURIComponent(q)}`,
       {
         method: "get",
         headers: headers.page,
@@ -16,6 +17,7 @@ router.get("/", async (req, api) => {
     );
     const data = await response.text();
     const selector = cheerio.load(data);
+    console.log(data);
     const titles = selector(".b-content__inline_item-link a")
       .map((i, x) => selector(x).text())
       .toArray();
@@ -41,8 +43,8 @@ router.get("/", async (req, api) => {
         slug: slugreg.exec(slugs[key])[1],
       };
     });
-
-    api.send({ results: result });
+    console.log(result);
+    api.send({ search: result });
   } catch (e) {
     errorHandler(e, api);
   }

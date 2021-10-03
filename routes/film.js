@@ -1,12 +1,11 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
-const { domain, headers } = require("./globalStorage");
-const { errorHandler } = require("./errorHandler");
-const { tileHeader } = require("./dynamicParams.js");
+const { domain, headers } = require("../config/globalStorage");
+const { errorHandler } = require("../errorHandler");
+const { tileHeader, ajaxHeader } = require("../config/dynamicParams.js");
 
-router.post("/", async (req, api) => {
+router.post("/film", async (req, api) => {
   const { data } = req.body;
   if (data) {
     const buffer = Buffer.from(data, "base64");
@@ -98,14 +97,13 @@ router.post("/", async (req, api) => {
 
       const tid = initdata.data.match(/\d+/g)[1];
       const inittrans = {
-        id: tid,
+        id: Number(tid),
         name:
           selector(`.b-translator__item[data-translator_id=${tid}]`).text() ||
           "Оригинальный",
       };
 
       var params = "";
-      var url = null;
       if (!series) {
         if (translations.length > 0) {
           params = {
@@ -170,6 +168,27 @@ router.post("/", async (req, api) => {
       });
 
       const tile = await tiles.text();
+
+      const body = new URLSearchParams({
+        action: "add",
+        id: Number(id),
+        translator_id: tid,
+      });
+
+      const ajax = await fetch(
+        `${domain}/ajax/send_watching/?t=${Date.now()}`,
+        {
+          method: "post",
+          body: new URLSearchParams({
+            action: "add",
+            id: Number(id),
+            translator_id: tid,
+          }),
+          headers: ajaxHeader(body.toString().length, slug),
+        }
+      );
+
+      const send = await ajax.text();
     } catch (e) {
       errorHandler(e, api);
     }

@@ -1,16 +1,25 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
-const categories = require("./categories");
-const film = require("./film");
-const hash = require("./hash");
-const geturl = require("./geturl");
-//const related = require("./related");
-const search = require("./search");
+const activate = require("./routes/activate");
+const categories = require("./routes/categories");
+const checkuser = require("./routes/checkuser");
+const favorites = require("./routes/favorites");
+const film = require("./routes/film");
+const geturl = require("./routes/geturl");
+const login = require("./routes/login");
+const logout = require("./routes/logout");
+const refresh = require("./routes/refresh");
+const register = require("./routes/register");
+const search = require("./routes/search");
+const timestamp = require("./routes/timestamp");
 const cors = require("cors");
-require("dotenv").config();
+const cookieParser = require("cookie-parser");
+const mongoose = require("mongoose");
 const fetch = require("node-fetch");
-const { domain, headers } = require("./globalStorage");
+const { domain, headers } = require("./config/globalStorage");
+
+require("dotenv").config();
 
 fetch(domain, {
   method: "GET",
@@ -23,13 +32,40 @@ fetch(`${domain}/page/2/`, {
 });
 
 app.use(express.json());
-app.use(cors());
-app.use("/categories", categories);
-app.use("/film", film);
-app.use("/geturl", geturl);
-app.use("/hash", hash);
-//app.use("/related", related);
-app.use("/search", search);
+app.use(cookieParser());
+app.use(
+  cors({
+    credentials: true,
+    origin: ["https://new.dyadka.gq", "http://localhost:3000"],
+  })
+);
+
+mongoose.connect(
+  process.env.DB_URL,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  },
+  () => console.log("Connected to DB")
+);
+
+app.use(
+  "/",
+  activate,
+  categories,
+  checkuser,
+  favorites,
+  film,
+  geturl,
+  login,
+  logout,
+  refresh,
+  register,
+  search,
+  timestamp
+);
+//app.use("/hash", hash);
 app.get("*", (req, res) => {
   res.status(404).send("Такого эндпоинта не существует");
 });

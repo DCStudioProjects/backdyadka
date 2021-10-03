@@ -1,11 +1,10 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const fetch = require("node-fetch");
-const { domain } = require("./globalStorage");
-const { errorHandler } = require("./errorHandler");
-const { apiHeader } = require("./dynamicParams.js");
+const { domain } = require("../config/globalStorage");
+const { errorHandler } = require("../errorHandler");
+const { apiHeader } = require("../config/dynamicParams.js");
 
-router.post("/", async (req, api) => {
+router.post("/geturl", async (req, api) => {
   const { source, translation, season, episode, hash, token } = req.body;
   if (source && translation && token) {
     const buffer = Buffer.from(source, "base64");
@@ -72,12 +71,11 @@ router.post("/", async (req, api) => {
       const qualities = ["240p", "360p", "480p", "720p", "1080p"];
       const urls = sources.split(",");
       urls.map((item, key) => {
-        const urlreg = /\[.+?](.+?) or (.+?mp4)/g;
+        const urlreg = /\[.+?]http(.+?) or http(.+?mp4)/g;
         const found = urlreg.exec(item);
-        console.log(found);
         media.push({
           quality: qualities[key],
-          urls: [found[1], found[2]],
+          urls: [`https${found[1]}`, `https${found[2]}`],
         });
       });
 
