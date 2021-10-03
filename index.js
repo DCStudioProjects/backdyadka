@@ -46,6 +46,8 @@ const corsOptions = {
   })
 );*/
 
+app.use(cors());
+
 mongoose.connect(
   process.env.DB_URL,
   {
@@ -57,7 +59,6 @@ mongoose.connect(
 );
 
 app.use(
-  cors(corsOptions),
   activate,
   categories,
   checkuser,
@@ -71,8 +72,9 @@ app.use(
   search,
   timestamp
 );
-//app.use("/hash", hash);
+
 app.get("*", (req, res) => {
   res.status(404).send("Такого эндпоинта не существует");
 });
+
 app.listen(port, () => console.log(`App is listening on port ${port}!`));
