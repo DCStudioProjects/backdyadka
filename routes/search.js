@@ -17,7 +17,7 @@ router.post("/search", async (req, api) => {
     );
     const data = await response.text();
     const selector = cheerio.load(data);
-    console.log(data);
+
     const titles = selector(".b-content__inline_item-link a")
       .map((i, x) => selector(x).text())
       .toArray();
@@ -43,7 +43,7 @@ router.post("/search", async (req, api) => {
         slug: slugreg.exec(slugs[key])[1],
       };
     });
-    console.log(result);
+
     api.send({ search: result });
   } catch (e) {
     errorHandler(e, api);
