@@ -34,19 +34,16 @@ fetch(`${domain}/page/2/`, {
 app.use(express.json());
 app.use(cookieParser());
 
-const corsOptions = {
-  credentials: true,
-  origin: ["https://new.dyadka.gq", "http://localhost:3000"],
-};
-
-/*app.use(
+app.use(
   cors({
+    allowedHeaders: ["Authorization"],
     credentials: true,
     origin: ["https://new.dyadka.gq", "http://localhost:3000"],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   })
-);*/
-
-app.use(cors());
+);
 
 mongoose.connect(
   process.env.DB_URL,
