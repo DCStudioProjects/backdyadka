@@ -33,12 +33,18 @@ fetch(`${domain}/page/2/`, {
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(
+
+const corsOptions = {
+  credentials: true,
+  origin: ["https://new.dyadka.gq", "http://localhost:3000"],
+};
+
+/*app.use(
   cors({
     credentials: true,
     origin: ["https://new.dyadka.gq", "http://localhost:3000"],
   })
-);
+);*/
 
 mongoose.connect(
   process.env.DB_URL,
@@ -51,7 +57,7 @@ mongoose.connect(
 );
 
 app.use(
-  "/",
+  cors(corsOptions),
   activate,
   categories,
   checkuser,
