@@ -38,6 +38,12 @@ router.post("/film", async (req, api) => {
         imdb: selector(".b-post__info_rates.imdb span.bold").text(),
       };
 
+      const episodeObject = (season, episode) => {
+        return {
+          number: episode,
+          poster: `https://cdn.statically.io/img/blackmedia.top/f=auto,q=80/media/${kp_id}/preview_app_cinema_media_${kp_id}_s${season}e${episode}.png`,
+        };
+      };
       const seasons = selector(".b-simple_season__item")
         .map((i, x) => ({
           season: Number(selector(x).attr("data-tab_id")),
@@ -46,7 +52,12 @@ router.post("/film", async (req, api) => {
               "data-tab_id"
             )} .b-simple_episode__item`
           )
-            .map((i, el) => Number(selector(el).attr("data-episode_id")))
+            .map((i, el) =>
+              episodeObject(
+                Number(selector(x).attr("data-tab_id")),
+                Number(selector(el).attr("data-episode_id"))
+              )
+            )
             .toArray(),
         }))
         .toArray();
