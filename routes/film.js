@@ -62,13 +62,13 @@ router.post("/film", async (req, api) => {
         }))
         .toArray();
 
-      const series = seasons.length ? true : false;
+      const isSeries = seasons.length ? true : false;
 
       const translations = selector(".b-translator__item")
         .map((i, x) => ({
           id: Number(selector(x).attr("data-translator_id")),
           name: selector(x).attr("title"),
-          params: !series
+          params: !isSeries
             ? {
                 is_camrip: selector(x).attr("data-camrip"),
                 is_ads: selector(x).attr("data-ads"),
@@ -85,7 +85,7 @@ router.post("/film", async (req, api) => {
       const urlsdecoder = /\\\//g;
       const media = [];
 
-      if (!series) {
+      if (!isSeries) {
         const urlsreg = /(\[\d+p\s?\w*].*?)"?,/g;
         const qualities = ["240p", "360p", "480p", "720p", "1080p"];
         const urls = initdata.data.matchAll(urlsreg);
@@ -115,7 +115,7 @@ router.post("/film", async (req, api) => {
       };
 
       var params = "";
-      if (!series) {
+      if (!isSeries) {
         if (translations.length > 0) {
           params = {
             is_camrip: selector(".b-translator__item.active").attr(
@@ -159,7 +159,7 @@ router.post("/film", async (req, api) => {
         media: media.length > 0 ? media.reverse() : null,
         origtitle,
         ratings,
-        series,
+        isSeries,
         slug,
         title,
         token,
