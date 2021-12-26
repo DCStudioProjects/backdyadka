@@ -36,7 +36,9 @@ router.get("/categories", async (req, api) => {
       return {
         id: ids[key],
         title: titles[key],
-        poster: images[key],
+        poster: `https://cdn.statically.io/img/static.hdrezka.ac/f=auto,q=60/${images[
+          key
+        ].substring(25)}`,
         slug: slugreg.exec(slugs[key])[1],
       };
     });
