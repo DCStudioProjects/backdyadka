@@ -1,5 +1,5 @@
-const host = "aghdrezka.com";
-const protocol = "http://";
+const host = "kinopub.me";
+const protocol = "https://";
 const domain = protocol + host;
 
 module.exports = {
