@@ -71,7 +71,7 @@ router.post("/geturl", async (req, api) => {
       const qualities = ["240p", "360p", "480p", "720p", "1080p"];
       const urls = sources.split(",");
       urls.map((item, key) => {
-        const urlreg = /\[.+?]http(.+?) or http(.+?mp4)/g;
+        const urlreg = /\[.+?]https(.+?) or https(.+?mp4)/g;
         const found = urlreg.exec(item);
         media.push({
           quality: qualities[key],
