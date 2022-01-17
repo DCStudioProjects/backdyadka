@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
@@ -16,21 +17,20 @@ const timestamp = require("./routes/timestamp");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
-const fetch = require("node-fetch");
+const Fetch = require("node-fetch");
 const { domain, headers } = require("./config/globalStorage");
+import bodyParser from "body-parser";
 
-require("dotenv").config();
-
-fetch(domain, {
+Fetch(domain, {
   method: "GET",
   headers: headers.index,
 });
 
-fetch(`${domain}/page/2/`, {
+Fetch(`${domain}/page/2/`, {
   method: "GET",
   headers: headers.prefetch,
 });
-
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
 

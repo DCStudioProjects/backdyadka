@@ -1,12 +1,45 @@
+import axios from "axios";
+import { $mediaData, $urlsData } from "../api/ApiVars";
+
 const router = require("express").Router();
 const fetch = require("node-fetch");
 const { domain } = require("../config/globalStorage");
 const { errorHandler } = require("../errorHandler");
 const { apiHeader } = require("../config/dynamicParams.js");
+const puppeteer = require("puppeteer");
 
 router.post("/geturl", async (req, api) => {
-  const { source, translation, season, episode, hash, token } = req.body;
-  if (source && translation && token) {
+  try {
+    const { isSeries, kpId, translation } = req.body;
+    if (isSeries) {
+      const { episode, season } = req.body;
+      const { data } = await $urlsData.get(`/${kpId}`);
+      const regexSeasons = /var seasons_episodes = (.*)\;/;
+      const playlist = regexSeasons.exec(data)[1];
+      const regexUrls = /\[.+?](.+?) or (.+?mp4)/g;
+      const urls = regexUrls.exec(data);
+      console.log(urls);
+      api.send({ playlist });
+    } else {
+      const { data } = await $urlsData.get(`/${kpId}`);
+    }
+
+    /*const browser = await puppeteer.launch({ headless: false });
+    const page = await browser.newPage(); //новая вкладка
+    await page.goto(
+      `https://voidboost.net/embed/306084?s=1&e=1&h=voidboost.net`
+    );
+
+    //await page.waitForSelector("Селектор последнего DOM-элемента");
+    await page.mouse.click(400, 300); //в моём случае нужен был клик
+    const res = await page.waitForResponse((response) =>
+      response.url().includes("m3u8")
+    );
+    const url = await res.url(); //вынимаем ссылку
+    console.log(url); //здесь я отправлял результат в API, можно сделать любой вывод
+    await browser.close();
+
+    /*if (source && translation && token) {
     const buffer = Buffer.from(source, "base64");
     const slug = buffer.toString();
     const urlreg = /(\d*?)\-/g;
@@ -85,6 +118,10 @@ router.post("/geturl", async (req, api) => {
     }
   } else {
     api.send({ comment: "Required data are not provided" });
+  }*/
+    api.send({ url });
+  } catch (e) {
+    errorHandler(e, api);
   }
 });
 
