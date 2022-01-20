@@ -97,7 +97,7 @@ export const getSeasons = async (kpId: string) => {
   return data;
 };
 
-export const getSimilars = async (kpId: string) => {
+export const getSimilar = async (kpId: string) => {
   const {
     data: { items: rawData },
   } = await $kpdata.get(`/v2.2/films/${kpId}/similars`);

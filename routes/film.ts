@@ -5,7 +5,7 @@ import {
   getData,
   getMediaData,
   getSeasons,
-  getSimilars,
+  getSimilar,
   getStaff,
 } from "../services/filmService";
 
@@ -30,7 +30,7 @@ router.post("/film", async (req: Request, api: Response) => {
     const { translations } = await getMediaData(kpId);
     const posterBig = `https://cdn.statically.io/img/blackmedia.top/f=auto,q=50/media/${kpId}/wide_app_cinema_media_${kpId}.jpg`;
     const seasons = isSeries ? await getSeasons(kpId) : null;
-    const similars = await getSimilars(kpId);
+    const similar = await getSimilar(kpId);
     const staff = await getStaff(kpId);
 
     api.send({
@@ -44,7 +44,7 @@ router.post("/film", async (req: Request, api: Response) => {
       posterBig,
       ratings,
       seasons,
-      similars,
+      similar,
       staff,
       title,
       translations,
