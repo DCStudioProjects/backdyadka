@@ -8,9 +8,9 @@ router.post('/geturl', async (req: Request, api: Response) => {
   try {
     const {episode, isSeries, kpId, season, translation} = req.body;
     if (kpId && translation) {
-      const {playlist, urlRaw} = await getUrl(isSeries, episode, season, kpId, translation);
+      const {urlRaw} = await getUrl(isSeries, episode, season, kpId, translation);
       const urls = decodeUrl(urlRaw);
-      api.send({playlist, urls});
+      api.send({urls});
     } else {
       api.send({comment: 'Required data are not provided'});
     }

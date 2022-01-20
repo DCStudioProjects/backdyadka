@@ -3,18 +3,15 @@ import urlDecoder from './decodeService';
 
 export const getUrl = async (isSeries: boolean, episode: string, season: string, kpId: string, translation: string) => {
   if (isSeries) {
-    const {data} = await $urlsData.get(`/${kpId}?s=${season}&e=${episode}&h=baskino.me`);
-    const regexSeasons = /var seasons_episodes = (.*);/;
-    const playlistRaw = regexSeasons?.exec(data)[1];
-    const playlist = JSON.parse(playlistRaw);
+    const {data} = await $urlsData.get(`/${kpId}?s=${season}&e=${episode}&t=${translation}&h=baskino.me`);
     const regexUrls = /'file': '(.*)'/;
     const urlRaw = regexUrls.exec(data)[1];
-    return {playlist, urlRaw}
+    return {urlRaw}
   } else {
     const {data} = await $urlsData.get(`/${kpId}`);
     const regexUrls = /'file': '(.*)'/;
     const urlRaw = regexUrls.exec(data)[1];
-    return {playlist: null, urlRaw}
+    return {urlRaw}
   }
 };
 
