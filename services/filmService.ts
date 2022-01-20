@@ -1,6 +1,5 @@
-import { Cheerio } from "cheerio";
 import { $kpdata, $mediaData } from "../api/ApiVars";
-import { StaffData, TranslationsData } from "../interfaces/IFilm";
+import { StaffData } from "../interfaces/IFilm";
 
 export const getData = async (kpId: string) => {
   const { data: rawData } = await $kpdata.get(`/v2.2/films/${kpId}`);
