@@ -31,7 +31,7 @@ export const decodeUrl = (url: string) => {
     const found = urlreg.exec(item);
     return {
       quality: qualities[key],
-      urls: [`https${found[1]}`, `https${found[2]}`],
+      streams: [`https${found[1]}`, `https${found[2]}`],
     };
   });
   return urls;
