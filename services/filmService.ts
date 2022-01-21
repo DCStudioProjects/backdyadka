@@ -49,7 +49,7 @@ export const getMediaData = async (kpId: string) => {
       }
     })
 
-    return {season: seasonNumber, episodes}
+    return {season: Number(seasonNumber), episodes}
   })
   const regexTranslations = /<option data-token="\S{32}" data-d="" value="(\d{1,8}).">(.+?)<\/option>/g;
   let translationsRaw = data.matchAll(regexTranslations);
