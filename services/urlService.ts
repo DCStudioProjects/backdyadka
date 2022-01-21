@@ -23,6 +23,6 @@ export const decodeUrl = (url: string) => {
       quality: qualities[key],
       streams: [`https${found[1]}`, `https${found[2]}`],
     };
-  });
+  }).reverse();
   return urls;
 };
