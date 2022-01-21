@@ -37,9 +37,27 @@ export const getData = async (kpId: string) => {
 export const getMediaData = async (kpId: string) => {
   const {data} = await $urlsData.get(`/${kpId}`);
   const regexSeasons = /var seasons_episodes = (.*);/;
-  const playlistRaw = regexSeasons?.exec(data)[1];
-  const playlist = JSON.parse(playlistRaw);
-  return {playlist};
+  let playlistRaw = regexSeasons.exec(data)[1];
+  playlistRaw = JSON.parse(playlistRaw);
+  const seasons = Object.keys(playlistRaw);
+  const playlist = seasons.map(seasonNumber => {
+    const season = playlistRaw[seasonNumber];
+    const episodes = season.map(episodeNumber => {
+      return {
+        number: episodeNumber,
+        poster: `https://cdn.statically.io/img/blackmedia.top/f=auto,q=80/media/${kpId}/preview_app_cinema_media_${kpId}_s${seasonNumber}e${episodeNumber}.png`,
+      }
+    })
+
+    return {season: seasonNumber, episodes}
+  })
+  const regexTranslations = /<option data-token="\S{32}" data-d="" value="(\d{1,8}).">(.+?)<\/option>/g;
+  let translationsRaw = data.matchAll(regexTranslations);
+  translationsRaw = Array.from(translationsRaw);
+  const translations = translationsRaw.map(item => {
+    return {id: Number(item[1]), title: item[2]}
+  })
+  return {playlist, translations};
 };
 
 export const getStaff = async (kpId: string) => {

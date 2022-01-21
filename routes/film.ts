@@ -1,6 +1,6 @@
-import express, { Request, Response } from "express";
-import { FilmBody } from "../interfaces/IFilm";
-import { errorHandler } from "../errorHandler";
+import express, {Request, Response} from 'express';
+import {FilmBody} from '../interfaces/IFilm';
+import {errorHandler} from '../errorHandler';
 import {
   getData,
   getMediaData,
@@ -11,9 +11,9 @@ import {
 
 const router = express.Router();
 
-router.post("/film", async (req: Request, api: Response) => {
+router.post('/film', async (req: Request, api: Response) => {
   try {
-    const { kpId: userkpId }: FilmBody = req.body;
+    const {kpId: userkpId}: FilmBody = req.body;
     const data = await getData(userkpId);
     const {
       age,
@@ -27,9 +27,8 @@ router.post("/film", async (req: Request, api: Response) => {
       title,
       year,
     } = data;
-    const { playlist } = await getMediaData(kpId);
+    const {playlist, translations} = await getMediaData(kpId);
     const posterBig = `https://cdn.statically.io/img/blackmedia.top/f=auto,q=50/media/${kpId}/wide_app_cinema_media_${kpId}.jpg`;
-    //const seasons = isSeries ? await getSeasons(kpId) : null;
     const similar = await getSimilar(kpId);
     const staff = await getStaff(kpId);
 
@@ -44,11 +43,10 @@ router.post("/film", async (req: Request, api: Response) => {
       playlist,
       posterBig,
       ratings,
-      //seasons,
       similar,
       staff,
       title,
-      //translations,
+      translations,
       year,
     });
   } catch (e) {
