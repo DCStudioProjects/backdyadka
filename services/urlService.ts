@@ -2,17 +2,10 @@ import {$urlsData} from '../api/ApiVars';
 import urlDecoder from './decodeService';
 
 export const getUrl = async (isSeries: boolean, episode: string, season: string, kpId: string, translation: string) => {
-  if (isSeries) {
-    const {data} = await $urlsData.get(`/${kpId}?s=${season}&e=${episode}&t=${translation}&h=baskino.me`);
-    const regexUrls = /'file': '(.*)'/;
-    const urlRaw = regexUrls.exec(data)[1];
-    return {urlRaw}
-  } else {
-    const {data} = await $urlsData.get(`/${kpId}`);
-    const regexUrls = /'file': '(.*)'/;
-    const urlRaw = regexUrls.exec(data)[1];
-    return {urlRaw}
-  }
+  const {data} = await $urlsData.get(isSeries ? `/${kpId}?s=${season}&e=${episode}&t=${translation}&h=baskino.me` : `/${kpId}?t=${translation}&h=baskino.me`);
+  const regexUrls = /'file': '(.*)'/;
+  const urlRaw = regexUrls.exec(data)[1];
+  return {urlRaw}
 };
 
 export const decodeUrl = (url: string) => {

@@ -7,7 +7,7 @@ import {
   getSeasons,
   getSimilar,
   getStaff,
-} from "../services/filmService";
+} from '../services/filmService';
 
 const router = express.Router();
 
@@ -27,9 +27,9 @@ router.post("/film", async (req: Request, api: Response) => {
       title,
       year,
     } = data;
-    const { translations } = await getMediaData(kpId);
+    const { playlist } = await getMediaData(kpId);
     const posterBig = `https://cdn.statically.io/img/blackmedia.top/f=auto,q=50/media/${kpId}/wide_app_cinema_media_${kpId}.jpg`;
-    const seasons = isSeries ? await getSeasons(kpId) : null;
+    //const seasons = isSeries ? await getSeasons(kpId) : null;
     const similar = await getSimilar(kpId);
     const staff = await getStaff(kpId);
 
@@ -41,13 +41,14 @@ router.post("/film", async (req: Request, api: Response) => {
       isSeries,
       kpId,
       origTitle,
+      playlist,
       posterBig,
       ratings,
-      seasons,
+      //seasons,
       similar,
       staff,
       title,
-      translations,
+      //translations,
       year,
     });
   } catch (e) {
