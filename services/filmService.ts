@@ -37,20 +37,24 @@ export const getData = async (kpId: string) => {
 export const getMediaData = async (kpId: string) => {
   const {data} = await $urlsData.get(`/${kpId}`);
   const regexSeasons = /var seasons_episodes = (.*);/;
-  let playlistRaw = regexSeasons.exec(data)[1];
-  playlistRaw = JSON.parse(playlistRaw);
-  const seasons = Object.keys(playlistRaw);
-  const playlist = seasons.map(seasonNumber => {
-    const season = playlistRaw[seasonNumber];
-    const episodes = season.map(episode => {
-      return {
-        episode,
-        poster: `https://cdn.statically.io/img/blackmedia.top/f=auto,q=80/media/${kpId}/preview_app_cinema_media_${kpId}_s${seasonNumber}e${episode}.png`,
-      }
-    })
+  const playlistObject = regexSeasons.exec(data);
+  let playlist = [];
+  if (playlistObject) {
+    let playlistRaw = playlistObject[1];
+    playlistRaw = JSON.parse(playlistRaw);
+    const seasons = Object.keys(playlistRaw);
+    playlist = seasons.map(seasonNumber => {
+      const season = playlistRaw[seasonNumber];
+      const episodes = season.map(episode => {
+        return {
+          episode,
+          poster: `https://cdn.statically.io/img/blackmedia.top/f=auto,q=80/media/${kpId}/preview_app_cinema_media_${kpId}_s${seasonNumber}e${episode}.png`,
+        }
+      })
 
-    return {season: Number(seasonNumber), episodes}
-  })
+      return {season: Number(seasonNumber), episodes}
+    })
+  }
   const regexTranslations = /<option data-token="\S{32}" data-d="" value="(\d{1,8}).">(.+?)<\/option>/g;
   let translationsRaw = data.matchAll(regexTranslations);
   translationsRaw = Array.from(translationsRaw);
