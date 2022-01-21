@@ -42,10 +42,10 @@ export const getMediaData = async (kpId: string) => {
   const seasons = Object.keys(playlistRaw);
   const playlist = seasons.map(seasonNumber => {
     const season = playlistRaw[seasonNumber];
-    const episodes = season.map(episodeNumber => {
+    const episodes = season.map(episode => {
       return {
-        number: episodeNumber,
-        poster: `https://cdn.statically.io/img/blackmedia.top/f=auto,q=80/media/${kpId}/preview_app_cinema_media_${kpId}_s${seasonNumber}e${episodeNumber}.png`,
+        episode,
+        poster: `https://cdn.statically.io/img/blackmedia.top/f=auto,q=80/media/${kpId}/preview_app_cinema_media_${kpId}_s${seasonNumber}e${episode}.png`,
       }
     })
 
