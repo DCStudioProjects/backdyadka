@@ -6,6 +6,7 @@
     "scripts": {
         "build": "rimraf ./build && tsc",
         "deploy": "vercel deploy --prod",
+        "debug": "vercel dev",
         "start": "nodemon"
     },
     "author": "",
