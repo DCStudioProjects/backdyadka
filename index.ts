@@ -17,19 +17,8 @@ const timestamp = require("./routes/timestamp");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
-const Fetch = require("node-fetch");
-const { domain, headers } = require("./config/globalStorage");
 import bodyParser from "body-parser";
 
-Fetch(domain, {
-  method: "GET",
-  headers: headers.index,
-});
-
-Fetch(`${domain}/page/2/`, {
-  method: "GET",
-  headers: headers.prefetch,
-});
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
