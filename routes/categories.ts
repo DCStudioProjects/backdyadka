@@ -10,7 +10,8 @@ router.get('/categories', async (req: Request, api: Response) => {
   try {
     const category = req.query.category.toString();
     const { data: rawData } = await $kpdata.get(`/v2.2/films${categories[category]}&page=1`);
-    const data = kpListDTO(rawData.films);
+    const rawList = rawData.films || rawData.items;
+    const data = kpListDTO(rawList);
     api.send({ data });
   } catch (e) {
     errorHandler(e, api);
