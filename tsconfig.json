@@ -1,12 +1,28 @@
 {
-    "compilerOptions": {
-      "allowJs": true,
-      "module": "commonjs",
-      "esModuleInterop": true,
-      "target": "es2021",
-      "rootDir": "./",
-      "outDir": "./build",
-      "strict": false,
-      "types": ["node"]
-    }
+  "compilerOptions": {
+    "allowJs": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es2021",
+    "rootDir": "./",
+    "outDir": "./build",
+    "strict": false,
+    "baseUrl": ".",
+    "paths": {
+      "@api/*": ["./api/*"],
+      "@auth/*": ["./auth/*"],
+      "@config/*": ["./config/*"],
+      "@constants/*": ["./constants/*"],
+      "@dtos/*": ["./dtos/*"],
+      "@interfaces/*": ["./interfaces/*"],
+      "@middlewares/*": ["./middlewares/*"],
+      "@models/*": ["./models/*"],
+      "@routes/*": ["./routes/*"],
+      "@services/*": ["./services/*"],
+      "@validators/*": ["./validators/*"]
+    },
+    "types": ["node"]
+  },
+  "include": ["**/*.ts", "**/*.js"],
+  "exclude": ["build", "node_modules"]
 }

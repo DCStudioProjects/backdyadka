@@ -1,31 +1,20 @@
-const router = require("express").Router();
-const cheerio = require("cheerio");
-const { errorHandler } = require("../errorHandler");
-const { domain, headers } = require("../config/globalStorage");
-import { $kpdata } from "../api/ApiVars";
+import express, { Request, Response } from 'express';
+import { errorHandler } from '../errorHandler';
+import { $kpdata } from '../api/ApiVars';
+import { categories } from '../constants/endpoints';
+import { kpListDTO } from '../dtos/kpListDTO';
 
-router.get("/categories", async (req, api) => {
+const router = express.Router();
+
+router.get('/categories', async (req: Request, api: Response) => {
   try {
-    const { category } = req.body;
-    // const { data: rawData } = await $kpdata.get(
-    //   `/v2.2/films?order=NUM_VOTE&type=ALL&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000&keyword=${encodeURIComponent(
-    //     category
-    //   )}&page=1`
-    // );
+    const category = req.query.category.toString();
+    const { data: rawData } = await $kpdata.get(`/v2.2/films${categories[category]}&page=1`);
+    console.log(rawData);
 
-    // const result = ids.map((res, key) => {
-    //   const slugreg = /\.\w{2,3}(\/.+?).html/g;
-    //   return {
-    //     id: ids[key],
-    //     title: titles[key],
-    //     poster: `https://cdn.statically.io/img/static.hdrezka.ac/f=auto,q=60/${images[
-    //       key
-    //     ].substring(25)}`,
-    //     slug: slugreg.exec(slugs[key])[1],
-    //   };
-    // });
+    const result = kpListDTO(rawData.films);
 
-    api.send({ results: "result" });
+    api.send(result);
   } catch (e) {
     errorHandler(e, api);
   }
