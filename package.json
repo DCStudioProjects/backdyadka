@@ -5,7 +5,7 @@
     "main": "build/index.js",
     "scripts": {
         "build": "rimraf ./build && tsc",
-        "start": "nodemon"
+        "dev": "nodemon"
     },
     "author": "",
     "license": "ISC",
