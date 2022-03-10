@@ -1,8 +1,15 @@
 import { decodeString, uString } from '../constants/decodeParams';
 
-const btoa = (text) => {
-  console.log(text);
-  return Buffer.from(text, 'binary').toString('base64');
+const btoa = (str) => {
+  var buffer;
+
+  if (str instanceof Buffer) {
+    buffer = str;
+  } else {
+    buffer = Buffer.from(str.toString(), 'binary');
+  }
+
+  return buffer.toString('base64');
 };
 
 const urlDecoder = (options) => {
