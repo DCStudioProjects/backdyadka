@@ -7,6 +7,9 @@
         "build": "rimraf ./build && tsc",
         "dev": "nodemon"
     },
+    "engines": {
+        "node": "16.x"
+    },
     "author": "",
     "license": "ISC",
     "dependencies": {
