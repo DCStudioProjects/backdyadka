@@ -4,7 +4,7 @@
     "description": "",
     "main": "build/index.js",
     "scripts": {
-        "build": "rimraf ./build && tsc",
+        "build": "tsc",
         "dev": "nodemon"
     },
     "engines": {
