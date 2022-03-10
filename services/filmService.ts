@@ -1,5 +1,5 @@
-import { $kpdata, $urlsData } from "../api/ApiVars";
-import { StaffData } from "../interfaces/IFilm";
+import { $kpdata, $urlsData } from '../api/ApiVars';
+import { StaffData } from '../interfaces/IFilm';
 
 export const getData = async (kpId: string) => {
   const { data: rawData } = await $kpdata.get(`/v2.2/films/${kpId}`);
@@ -17,11 +17,11 @@ export const getData = async (kpId: string) => {
     year,
   } = rawData;
 
-  const countries = countriesRaw.map(({ country }) => country).join(", ");
-  const genres = genresRaw.map(({ genre }) => genre).join(", ");
+  const countries = countriesRaw.map(({ country }) => country).join(', ');
+  const genres = genresRaw.map(({ genre }) => genre).join(', ');
 
   return {
-    age: `${ratingAgeLimits?.slice(3) || "16"}+`,
+    age: `${ratingAgeLimits?.slice(3) || '16'}+`,
     countries,
     description,
     genres,
@@ -35,41 +35,45 @@ export const getData = async (kpId: string) => {
 };
 
 export const getMediaData = async (kpId: string) => {
-  const { data } = await $urlsData.get(`/${kpId}`);
-  const regexSeasons = /var seasons_episodes = (.*);/;
-  const playlistObject = regexSeasons.exec(data);
-  let playlist = [];
-  if (playlistObject) {
-    let playlistRaw = playlistObject[1];
-    playlistRaw = JSON.parse(playlistRaw);
-    const seasons = Object.keys(playlistRaw);
-    playlist = seasons.map((seasonNumber) => {
-      const season = playlistRaw[seasonNumber];
-      const episodes = season.map((episode) => {
-        return {
-          episode,
-          poster: `https://cdn.statically.io/img/blackmedia.top/f=auto,q=80/media/${kpId}/preview_app_cinema_media_${kpId}_s${seasonNumber}e${episode}.png`,
-        };
-      });
+  try {
+    const { data } = await $urlsData.get(`/${kpId}`);
+    const regexSeasons = /var seasons_episodes = (.*);/;
+    const playlistObject = regexSeasons.exec(data);
+    let playlist = [];
+    if (playlistObject) {
+      let playlistRaw = playlistObject[1];
+      playlistRaw = JSON.parse(playlistRaw);
+      const seasons = Object.keys(playlistRaw);
+      playlist = seasons.map((seasonNumber) => {
+        const season = playlistRaw[seasonNumber];
+        const episodes = season.map((episode) => {
+          return {
+            episode,
+            poster: `https://cdn.statically.io/img/blackmedia.top/f=auto,q=80/media/${kpId}/preview_app_cinema_media_${kpId}_s${seasonNumber}e${episode}.png`,
+          };
+        });
 
-      return { season: Number(seasonNumber), episodes };
+        return { season: Number(seasonNumber), episodes };
+      });
+    }
+    const regexTranslations =
+      /<option data-token="\S{32}" data-d="" value="(\d{1,8}).">(.+?)<\/option>/g;
+    let translationsRaw = data.matchAll(regexTranslations);
+    translationsRaw = Array.from(translationsRaw);
+    const translations = translationsRaw.map((item) => {
+      return { id: Number(item[1]), title: item[2] };
     });
+    return { playlist, translations };
+  } catch (err) {
+    return { playlist: [], translations: [] };
   }
-  const regexTranslations =
-    /<option data-token="\S{32}" data-d="" value="(\d{1,8}).">(.+?)<\/option>/g;
-  let translationsRaw = data.matchAll(regexTranslations);
-  translationsRaw = Array.from(translationsRaw);
-  const translations = translationsRaw.map((item) => {
-    return { id: Number(item[1]), title: item[2] };
-  });
-  return { playlist, translations };
 };
 
 export const getStaff = async (kpId: string) => {
   const { data } = await $kpdata.get(`/v1/staff?filmId=${kpId}`);
   const directors = data
     .filter((res: StaffData) => {
-      if (res?.professionKey === "DIRECTOR") {
+      if (res?.professionKey === 'DIRECTOR') {
         return res;
       }
     })
@@ -78,13 +82,13 @@ export const getStaff = async (kpId: string) => {
       return {
         kpId: staffId,
         poster: `https://kinopoiskapiunofficial.tech/images/actor_posters/kp/${staffId}.jpg`,
-        role: "Режиссёр",
+        role: 'Режиссёр',
         title: nameRu,
       };
     });
   const actors = data
     .filter((res: StaffData) => {
-      if (res?.professionKey === "ACTOR") {
+      if (res?.professionKey === 'ACTOR') {
         return res;
       }
     })
@@ -93,7 +97,7 @@ export const getStaff = async (kpId: string) => {
       return {
         kpId: staffId,
         poster: `https://kinopoiskapiunofficial.tech/images/actor_posters/kp/${staffId}.jpg`,
-        role: "Актёр",
+        role: 'Актёр',
         title: nameRu,
       };
     });
