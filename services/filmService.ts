@@ -49,7 +49,7 @@ export const getMediaData = async (kpId: string) => {
         const episodes = season.map((episode) => {
           return {
             episode,
-            poster: `https://cdn.statically.io/img/blackmedia.top/f=auto,q=80/media/${kpId}/preview_app_cinema_media_${kpId}_s${seasonNumber}e${episode}.png`,
+            poster: `https://blackmedia.top/media/${kpId}/preview_app_cinema_media_${kpId}_s${seasonNumber}e${episode}.png`,
           };
         });
 
